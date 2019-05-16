@@ -14,7 +14,10 @@
     "autoload": {
         "psr-4": {
             "Yjtec\\Exception\\":"src/"
-        }
+        },
+        "files":[
+            "src/functions.php"
+        ]
     },
     "extra": {
         "laravel": {
