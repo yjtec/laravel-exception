@@ -55,6 +55,9 @@ class Handler extends ExceptionHandler
             $traces = $exception->getTrace();
             $result['traces'] = $traces[0];
         }
+        // if($exception instanceof ApiException){
+        //     $code = $exception
+        // }
         if($exception instanceof ModelNotFoundException){
             $config = config("code.NOT_FOUND");
             list($code,$msg) = $config;
