@@ -55,9 +55,24 @@ class Handler extends ExceptionHandler
             $traces = $exception->getTrace();
             $result['traces'] = $traces[0];
         }
-        // if($exception instanceof ApiException){
-        //     $code = $exception
-        // }
+        if($exception instanceof ApiException){
+            $code = $exception->getCode();
+            $extra = $exception->getExtra();
+            $config = config("code.{$code}");
+            if(!$config){
+                $config  = config("code.UNKNOWN_CODE");
+            }
+            list($code,$msg) = $config;
+            $result['errcode'] = $code;
+            $result['errmsg'] = $msg;
+            if($extra){
+                $result['data'] = $extra;
+                if(isset($extra['msg'])){
+                    $result['errmsg'] = $extra['msg'];
+                }
+            }
+            return response()->json($result);
+        }
         if($exception instanceof ModelNotFoundException){
             $config = config("code.NOT_FOUND");
             list($code,$msg) = $config;
