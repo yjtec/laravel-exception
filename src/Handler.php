@@ -4,7 +4,7 @@ namespace Yjtec\Exception;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 class Handler extends ExceptionHandler
 {
     /**
@@ -36,8 +36,8 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        dd(333);
-        parent::report($exception);
+
+        return parent::report($exception);
     }
 
     /**
@@ -49,6 +49,19 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+
+        $result = [];
+        if(env('APP_DEBUG')){
+            $traces = $exception->getTrace();
+            $result['traces'] = $traces[0];
+        }
+        if($exception instanceof ModelNotFoundException){
+            $config = config("code.NOT_FOUND");
+            list($code,$msg) = $config;
+            $result['errcode'] = $code;
+            $result['errmsg'] = $msg;
+            return response()->json($result);
+        }        
         return parent::render($request, $exception);
     }
 }
