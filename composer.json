@@ -1,0 +1,26 @@
+{
+    "name": "yjtec/laravel-exception",
+    "description": "laravel exception",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kidkang",
+            "email": "723616880@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Yjtec\\Exception\\":"src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yjtec\\Exception\\ExceptionServiceProvider"
+            ]
+        }
+    }    
+}
