@@ -70,6 +70,8 @@ class Handler extends ExceptionHandler
                 if(isset($extra['msg'])){
                     $result['errmsg'] = $extra['msg'];
                 }
+            }else{
+                $result['data'] = [];
             }
             return response()->json($result);
         }
@@ -79,7 +81,13 @@ class Handler extends ExceptionHandler
             $result['errcode'] = $code;
             $result['errmsg'] = $msg;
             return response()->json($result);
-        }        
+        }  
+        if(!empty($exception->validator->errors()->getMessages()) && strpos('  '.$request->header('accept'),'application/json')){
+
+            $errmsgs = $exception->validator->errors()->getMessages();
+            $values = array_values($errmsgs);
+            return response()->json(['errcode'=>3001,'errmsg'=>$values[0][0]]);
+        }      
         return parent::render($request, $exception);
     }
 }
