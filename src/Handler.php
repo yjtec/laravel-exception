@@ -5,6 +5,8 @@ namespace Yjtec\Exception;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -82,7 +84,7 @@ class Handler extends ExceptionHandler
             $result['errmsg'] = $msg;
             return response()->json($result);
         }  
-        if(!empty($exception->validator->errors()->getMessages()) && strpos('  '.$request->header('accept'),'application/json')){
+        if($exception instanceof ValidationException && strpos('  '.$request->header('accept'),'application/json')){
 
             $errmsgs = $exception->validator->errors()->getMessages();
             $values = array_values($errmsgs);
