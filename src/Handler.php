@@ -75,7 +75,11 @@ class Handler extends ExceptionHandler
             }else{
                 $result['data'] = [];
             }
-            return response()->json($result);
+            $status = 200;
+            if($code == 4003 || $code == 4004){
+                $status = 433;
+            }
+            return response()->json($result, $status);
         }
         if($exception instanceof ModelNotFoundException){
             $config = config("code.NOT_FOUND");
