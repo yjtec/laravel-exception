@@ -67,7 +67,7 @@ class Handler extends ExceptionHandler
             $result['errmsg'] = $msg;
             if($extra){
                 $result['data'] = $extra;
-                if(isset($extra['msg'])){
+                if(collect($extra)->has('msg')){
                     $result['errmsg'] = $extra['msg'];
                 }
             }else{
