@@ -76,6 +76,7 @@ class Handler extends ExceptionHandler
                 $result['data'] = [];
             }
             $status = 200;
+            
             if($code == 4003 || $code == 4004){
                 $status = 433;
             }
